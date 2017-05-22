@@ -1,11 +1,29 @@
-# Jump-Up
-Fund Raiser Website that helps the startup companies to raise funds and search for collaborators for various projects
+# README #
 
-This project develops a website using Python, flask and Postgresql.
-Usually startups fail or close within few days of starting projecs due to lack of budget.
+This README would normally document whatever steps are necessary to get your application up and running.
 
-Our website helps in showcasing the projects/ work of startups to rest of the world and fetch money from several individuals that helps reach certain goal of fund in few days.
+### What is this repository for? ###
 
-We have used potgresql as the database and Amazon S3 to store dynamic files like images and videos.
+* Quick summary
+* Version
+* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
-HTML, CSS and javascript is used for frontend and Python for the backend.
+### How do I get set up? ###
+
+* Summary of set up
+* Configuration
+* Dependencies
+* Database configuration
+* How to run tests
+* Deployment instructions
+
+### Contribution guidelines ###
+
+* Writing tests
+* Code review
+* Other guidelines
+
+### Who do I talk to? ###
+
+* Repo owner or admin
+* Other community or team contact

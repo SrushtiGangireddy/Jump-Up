@@ -1,0 +1,36 @@
+@app.route('/project_register',methods=['POST','GET'])
+def project_registration():
+    if request.method == 'GET':
+        return render_template("register_project.html")
+    elif request.method == 'POST':
+        project_title = request.form.get('project_title')
+        project_category = request.form.get('ddl1')
+        project_sub_category = request.form.get('ddl2')
+        project_country = request.form.get('projectCountry')
+        project_image = request.form.get('project_image')
+        project_description = request.form.get('project_description')
+        project_location = request.form.get('project_location')
+        project_fund_duration = request.form.get('fund_duration')
+        project_fund_goal = request.form.get('fundGoal')
+        projects_list = search_projects_by_title(project_title)
+
+        if validate_project_title(project_title) == False:
+            flash("Project title is invalid.Please choose a valid name")
+            return render_template("register_project.html")
+        if validate_funding_duration(project_fund_duration) == False:
+            flash("Please enter only the digits of the valid number of days")
+            return render_template("register_project.html")
+        if validate_fund_goal(project_fund_goal) == False:
+            flash("Please enter only the digits of the valid amount")
+            return render_template("register_project.html")
+
+        if len(projects_list) >= 1:
+            flash("The Project title should be unique. We are sorry to say that the project name is already taken. Please choose a different title.")
+            return render_template("register_project.html")
+        else:
+            insert_project(project_title,project_category,project_sub_category,project_country,project_image,project_description,project_location,project_fund_duration,project_fund_goal)
+
+        resp = make_response(render_template('rewards.html'))
+        resp.set_cookie('projectTitle',project_title)
+        reward()
+        return resp
