@@ -44,8 +44,11 @@ reward_message['To'] = 'Project Creator'
 
 from_addr = 'craftingideas.25@gmail.com'
 password = 'SuperUser'
-s = smtplib.SMTP_SSL('smtp.gmail.com')
-s.login(from_addr, password)
+try:
+    s = smtplib.SMTP_SSL('smtp.gmail.com')
+    s.login(from_addr, password)
+except:
+    pass
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'memcached'
