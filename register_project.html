@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Jump Up</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Theme CSS -->
+    <link href="/static/css/grayscale.min.css" rel="stylesheet">
+
+    <script type="text/javascript">
+
+        function uploadFile(file, s3Data, url){
+             var xhr = new XMLHttpRequest();
+             xhr.open("POST", s3Data.url);
+
+             var postData = new FormData();
+             for(key in s3Data.fields){
+                postData.append(key, s3Data.fields[key]);
+             }
+             postData.append('file', file);
+            xhr.onreadystatechange = function() {
+            if(xhr.readyState === 4){
+                if(xhr.status === 200 || xhr.status === 204 || xhr.status === 0){
+                    document.getElementById("preview").src = url;
+                    document.getElementById("project_image").value = url;
+                }
+                else{
+                    alert("Could not upload file.");
+                }
+            }
+            };
+            xhr.send(postData);
+        }
+
+         function getSignedRequest(file){
+             var xhr = new XMLHttpRequest();
+             xhr.open("GET", "/sign_s3?file_name="+file.name+"&file_type="+file.type);
+             xhr.onreadystatechange = function(){
+                 if(xhr.readyState === 4){
+                    if(xhr.status === 200){
+                        var response = JSON.parse(xhr.responseText);
+                        uploadFile(file, response.data, response.url);
+                        }
+                    else{
+                        alert("Could not get signed URL.");
+                    }
+                 }
+                };
+            xhr.send();
+    }
+
+
+
+        function initUpload(){
+            const files = document.getElementById('file-input').files;
+            const file = files[0];
+            if(!file){
+                return alert('No file selected.');
+            }
+            getSignedRequest(file);
+        }
+
+
+        function imageUpload(){
+                document.getElementById('file-input').onchange = initUpload();
+        }
+
+
+    </script>
+
+    <script type="text/javascript">
+
+   function configureFundGoal(country,fund){
+        switch(country.value){
+          case 'australia':
+            fund.placeholder='AUS$ 0';
+            break
+          case 'austria':
+            fund.placeholder='EURO 0';
+            break;
+          case 'belgium':
+            fund.placeholder='EURO 0';
+            break;
+          case 'canada':
+            fund.placeholder='CAD$ 0';
+            break;
+          case 'denmark':
+            fund.placeholder='DKK 0';
+            break;
+          case 'france':
+            fund.placeholder='EURO 0';
+            break;
+          case 'germany':
+            fund.placeholder='EURO 0';
+            break;
+          case 'hongkong':
+            fund.placeholder='HK$ 0';
+            break;
+          case 'ireland':
+            fund.placeholder='EURO 0';
+            break;
+          case 'italy':
+            fund.placeholder='EURO 0';
+            break;
+          case 'india':
+            fund.placeholder='INR 0';
+            break;
+          case 'mexico':
+            fund.placeholder='MXN 0';
+            break;
+          case 'netherlands':
+            fund.placeholder='EURO 0';
+            break;
+          case 'newzealand':
+            fund.placeholder='NZD$ 0';
+            break;
+          case 'norway':
+            fund.placeholder='NOK 0';
+            break;
+          case 'singapore':
+            fund.placeholder='SGD$ 0';
+            break;
+          case 'switzerland':
+            fund.placeholder='CHF 0';
+            break;
+          case 'spain':
+            fund.placeholder='EURO 0';
+            break;
+          case 'sweden':
+            fund.placeholder='SEK 0';
+            break;
+          case 'uk':
+            fund.placeholder='POUND 0';
+            break;
+          case 'us':
+            fund.placeholder='$ 0';
+            break;
+          }
+   }
+
+	 function configureDropDownLists(ddl1,ddl2) {
+		var arts = ['Ceramics','Conceptual Art','Digital Art','Illustration','Installations','Mixed Media','Painting','Performance Art','Public Art','Sculpture','Textiles','Video Art'];
+		 var comics=['Anthologies','Comic Books','Events','Graphic Novels','Web Comics'];
+		var crafts = ['Candles','Crochet','DIY','Embroidery','Glass','Knitting','Pottery','Printing','Quilts','Stationery','Taxidermy','Weaving','Wood Working'];
+		var dance = ['Performances','Residencies','Spaces','Workshops'];
+		var design = ['Architecture','Civic Design','Graphic Design','Interactive Design','Product Design','Typography'];
+		var fashion = ['Accessories','Apparel','Children Wear','Couture','Footwear','Jewelery','Pet Fashion','Ready to wear'];
+		 var filmvideo = ['Action','Animation','Comedy','Documentary','Drama','Experimental','Family','Fantasy','Horror','Musical','Romantic','Thrillers','Webseries','Science Fiction'];
+		 var food = ['Bacon','Community Gardens','Cookbooks','Drinks','Events','Farmers market','Farms','Food Trucks','Vegan','Restaurants','Small Batch'];
+		 var games = ['Gaming Hardware','Live Games','Mobile Games','Playing Cards','Puzzles','Tabletop Games','Video Games'];
+		 var journalism = ['Audio','Photo','Print','Video','Web'];
+		 var music = ['Blues','Chiptune','Classical Music','Comedy','Country & Folk','Electronic Music','Faith','Hip Hop','Indie Rock','Jazz','Kids','Latin','Metal','Pop','Rock'];
+		 var photography = ['Animals','Fine Art','Nature','People','Photobooks','Places'];
+		 var publishing = ['Academic','Antologies','Art books','Calender','Childerns Books','Comedy','Fiction','LetterPress','Literary Journals','Non fictions','Periodicals','Poetry','Radio & Podcasts','Translations','Young Adults','Zines','Literary Spaces'];
+		 var technology = ['3D Printing','Apps','Camer Equipment','DIY Electronics','Fabrication Tools','Flight','Gadgets','Hardware','Markerspaces','Robots','Software','Sound','Space Exploration','Wearables','Web'];
+		 var theatre = ['Comedy','Experimental','Festival','Immersive','Musical','Plays','Spaces'];
+		 switch (ddl1.value) {
+			 case 'arts': ddl2.options.length = 0;
+				 for (i = 0; i < arts.length; i++) {
+					 createOption(ddl2, arts[i], arts[i]);
+				 }
+				 break;
+			 case 'comics':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < comics.length; i++) {
+					 createOption(ddl2, comics[i], comics[i]);
+				 }
+				 break;
+			 case 'crafts':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < crafts.length; i++) {
+					 createOption(ddl2, crafts[i], crafts[i]);
+				 }
+				 break;
+			case 'dance':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < dance.length; i++) {
+					 createOption(ddl2, dance[i], dance[i]);
+				 }
+				 break;
+			case 'design':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < design.length; i++) {
+					 createOption(ddl2, design[i], design[i]);
+				 }
+				 break;
+			case 'fashion':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < fashion.length; i++) {
+					 createOption(ddl2, fashion[i], fashion[i]);
+				 }
+				 break;
+			case 'filmvideo':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < filmvideo.length; i++) {
+					 createOption(ddl2, filmvideo[i], filmvideo[i]);
+				 }
+				 break;
+			case 'food':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < food.length; i++) {
+					 createOption(ddl2, food[i], food[i]);
+				 }
+				 break;
+			case 'games':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < games.length; i++) {
+					 createOption(ddl2, games[i], games[i]);
+				 }
+				 break;
+			case 'journalism':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < journalism.length; i++) {
+					 createOption(ddl2, journalism[i], journalism[i]);
+				 }
+				 break;
+			case 'music':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < music.length; i++) {
+					 createOption(ddl2, music[i], music[i]);
+				 }
+				 break;
+			case 'photography':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < photography.length; i++) {
+					 createOption(ddl2, photography[i], photography[i]);
+				 }
+				 break;
+			case 'publishing':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < publishing.length; i++) {
+					 createOption(ddl2, publishing[i], publishing[i]);
+				 }
+				 break;
+			case 'technology':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < technology.length; i++) {
+					 createOption(ddl2, technology[i], technology[i]);
+				 }
+				 break;
+			case 'theatre':
+				 ddl2.options.length = 0;
+				 for (i = 0; i < theatre.length; i++) {
+					 createOption(ddl2, theatre[i], theatre[i]);
+				 }
+				 break;
+
+			 default:
+				 ddl2.options.length = 0; break;
+		 }
+	 }
+	function createOption(ddl, text, value) {
+		var opt = document.createElement('option');
+		opt.value = value;
+		opt.text = text;
+		ddl.options.add(opt);
+	}
+
+  function validateProjectRegistrationForm()
+  {
+    var title = document.forms["ProjectRegistrationForm"]["project_title"].value;
+    var pattern = /[^a-zA-Z0-9]/;
+    if (title == "") {
+        alert("Project title cannot be empty");
+        return false;
+    }else if(title.length > 100){
+      alert("Project title is too lengthy");
+      return false;
+    }else if(pattern.test(title)){
+      alert("Project title is not valid.Please give a valid title");
+      return false;
+    }
+
+    var funding_duration = document.forms["ProjectRegistrationForm"]["fund_duration"].value;
+    if(funding_duration == ""){
+      alert("Funding duration cannot be empty");
+      return false;
+    }else if(isNaN(funding_duration)){
+      alert("Funding duration should be a numeric");
+      return false;
+    }else if(funding_duration <= 0 | funding_duration > 60){
+      alert("Funding duration is greater than or less than the threshold");
+      return false;
+    }
+
+    var funding_goal = document.forms["ProjectRegistrationForm"]["fundGoal"].value;
+    if(funding_goal == ""){
+      alert("Fund Goal cannot be empty");
+      return false;
+    }else if(isNaN(funding_goal)){
+      alert("Fund Goal should be a numeric");
+      return false;
+    }else if(funding_goal <= 0 | funding_goal > 50000){
+      alert("Fund Goal is greater than or less than the threshold");
+      return false;
+    }
+
+	}
+
+	</script>
+
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+{% block body %}
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="/"> <em class="fa fa-play-circle"></em> <span class="light"><h4>{%  if session['Login'] %} Welcome, {{ session['UserName'] }} {% else %} Jump Up{%  endif %}</h4></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </a></div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/dashboard"><h4>Dashboard</h4></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/explore"><h4>Explore</h4></a>
+                    </li>
+                    <li> <a class="page-scroll" href="/register"><h4>User Registrations</h4></a> </li>
+                    <li> <a class="page-scroll" href="/login"><h4>Login</h4></a> </li>
+                    <li>
+                        <a class="page-scroll" href="/project_register"><h4>Start a new Project</h4></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/logout"><h4>Logout</h4></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <br>
+                    <br>
+                    <br>
+                    <br>
+                        <br>
+                    <br>
+                    <br>
+                      <h1 class="intro-text">Start a new project</h1>
+
+						<form method="post" name="ProjectRegistrationForm" action="/project_register" onsubmit="return validateProjectRegistrationForm()">
+							<dl>
+						          <label for="category">1. Choose a project Category</label>
+									<select style="color:darkslategray" id="ddl1" name="ddl1" onchange="configureDropDownLists(this,document.getElementById('ddl2'))">
+									<option>Category</option>
+									<option style="color:darkslategray" value="arts">Arts</option>
+									<option style="color:darkslategray" value="comics">Comics</option>
+									<option style="color:darkslategray" value="crafts">Crafts</option>
+									<option style="color:darkslategray" value="games">Games</option>
+									<option style="color:darkslategray" value="dance">Dance</option>
+									<option style="color:darkslategray" value="design">Design</option>
+									<option style="color:darkslategray" value="fashion">Fashion</option>
+									<option style="color:darkslategray" value="food">Food</option>
+									<option style="color:darkslategray" value="filmvideo">Film & Video</option>
+									<option style="color:darkslategray" value="journalism">Journalism</option>
+									<option style="color:darkslategray" value="music">Music</option>
+									<option style="color:darkslategray" value="photography">Photography</option>
+									<option style="color:darkslategray" value="publishing">Publishing</option>
+									<option style="color:darkslategray" value="technology">Technology</option>
+									<option style="color:darkslategray" value="theatre">Theatre</option>
+									</select><br><br>
+									<label for="subCategory">Sub Category</label>
+									<select style="color:darkslategray" id="ddl2" name="ddl2">
+									<option style="color:darkslategray">Sub Category</option>
+									</select>
+                                    <br><br>
+									<label for="title">2. Project title</label>
+									<input type="text" class="form-control" id="project_title" name="project_title" placeholder="Project title should go in here" required>
+                                    <br>
+									<label for="country">3. Country of Residence</label>
+									<select style="color:darkslategray" class="Country" id="projectCountry" name="projectCountry" onchange="configureFundGoal(this,document.getElementById('fundGoal'))">
+									<option style="color:darkslategray" value="australia">Australia</option>
+									<option style="color:darkslategray" value="austria">Austria</option>
+									<option style="color:darkslategray" value="belgium">Belgium</option>
+									<option style="color:darkslategray" value="canada">Canada</option>
+									<option style="color:darkslategray" value="denmark">Denmark</option>
+									<option style="color:darkslategray" value="france">France</option>
+									<option style="color:darkslategray" value="germany">Germany</option>
+									<option style="color:darkslategray" value="hongkong">Hongkong</option>
+									<option style="color:darkslategray" value="ireland">Ireland</option>
+									<option style="color:darkslategray" value="italy">Italy</option>
+									<option style="color:darkslategray" value="india">India</option>
+									<option style="color:darkslategray" value="mexico">Mexico</option>
+									<option style="color:darkslategray" value="netherlands">Netherlands</option>
+									<option style="color:darkslategray" value="newzealand">New Zealand</option>
+									<option style="color:darkslategray" value="norway">Norway</option>
+									<option style="color:darkslategray" value="singapore">Singapore</option>
+									<option style="color:darkslategray" value="spain">Spain</option>
+									<option style="color:darkslategray" value="sweden">Sweden</option>
+									<option style="color:darkslategray" value="switzerland">Switzerland</option>
+									<option style="color:darkslategray" value="uk">United Kingdom</option>
+									<option style="color:darkslategray" value="us">United States</option>
+									</select><br><br>
+									<label for="project image">4. Project Image</label>
+									<input type="file" id="file-input" value = "" onchange="imageUpload()">
+                                    <p id="status">Please select the image</p>
+                                    <input type="hidden" id="project_image" name="project_image" value="">
+                                    <img id="preview" src="/static/default.png" height="50" width="50"/>
+                                <br>
+									<label for="projectDescription">5. Project Description</label>
+									<input type="text" class="form-control" id="project_description" name="project_description" placeholder="Breifly describe the work in your project">
+                                <br>
+									<label for="projectLocation">6. Project Location</label>
+									<input type="text" class="form-control" id="project_location" name="project_location" placeholder="Project Location">
+                                <br>
+									<label for="fundDuration">7. Funding Duration</label>
+									<p> Please specify the duration in number of days, just the number </p>
+									<input type="text" class="form-control" id="fund_duration" name="fund_duration" placeholder=" " required>
+                                <br>
+									<label for="fundingGoal">8. Fund Goal</label>
+									<input type="text" class="form-control" id="fundGoal" name="fundGoal" placeholder="Specify your fund goal starting from $0" required>
+                                <br>
+									<label for="projectLocation">9. Location of project</label>
+									<input type="text" class="form-control" id="project_exact_location" placeholder="Specify the exact location of your project">
+									<form method="post" action="/invite">
+									<div class="form-group">
+										<label class="sr-only" for="projectCollaborators">10. Project Collaborators</label>
+									<p>11. Invite your team mates to help you with project</p>
+									</div>
+									<button style="color:darkslategray" type="submit" class="btn-btn-primary"><a href="/invite">Add Teammates</a></button>
+									</form>
+									<br>
+									<br>
+									<button style="color:darkslategray" align="center" type="submit" class="btn btn-default">Go ahead and add rewards to fund donors</button>
+
+    <br><br>
+
+
+									</dl>
+						</form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>About Jump Up</h2>
+                <p>Jump Up helps the start-up companies and the people with innovative ideas to showcase their projects, interact with the consumers and raise funds that are needed for their projects. We have implemented the backend of the website called kickstarter.com <a href="https://www.kickstarter.com/"></p>
+                <p>This website features innovative projects <a href="/explore">Explore the projects</a> Just login and register your project. <a href="/login">login here</a>.</p>
+                <p>Your project will be showcased in our explorers forum.<a href="/explore">Explorer's forum</a> Users can pledge to various projects in explorer's forum.</p>
+            </div>
+        </div>
+    </section>
+</body>
+
+{% endblock %}
+</html>

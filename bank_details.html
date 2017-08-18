@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Jump Up</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Theme CSS -->
+    <link href="/static/css/grayscale.min.css" rel="stylesheet">
+
+	<script type="text/javascript">
+      function validateAccountDetailsForm(){
+
+        var email_address = document.forms["BankAccountDetailsForm"]["contactEmail"].value;
+        var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(email_address == ""){
+          alert("Contact Email cannot be empty");
+          return false;
+        }else if(!email_regex.test(email_address)){
+          alert("Please enter the valid email addresss");
+          return false;
+        }
+
+        var fn = document.forms["BankAccountDetailsForm"]["fn"].value;
+        var ln = document.forms["BankAccountDetailsForm"]["ln"].value;
+        var dob = document.forms["BankAccountDetailsForm"]["DOB"].value;
+        var name_pattern = /^[A-Za-z\s]+$/;
+        var dob_pattern = /^([0-9]{2})/([0-9]{2})/([0-9]{4})$/;
+
+        if(fn == ""){
+          alert("FirstName field cannot be empty");
+          return false;
+        }else if(fn.length > 100){
+          alert("First name is very lengthy");
+          return false;
+        }else if(!name_pattern.test(fn)){
+          alert("Enter a valid first name");
+          return false;
+        }
+
+        if(ln == ""){
+          alert("LastName field cannot be empty");
+          return false;
+        }else if(ln.length > 100){
+          alert("Last name is very lengthy");
+          return false;
+        }else if(!name_pattern.test(ln)){
+          alert("Enter a valid last name");
+          return false;
+        }
+
+        if(dob == ""){
+          alert("Date of birth field cannot be empty");
+          return false;
+        }else if(!dob_pattern.test(dob)){
+          alert("Please enter a valid date of birth");
+          return false;
+        }
+
+        return true;
+
+      }
+  </script>
+
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+{% block body %}
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="/"> <em class="fa fa-play-circle"></em> <span class="light"><h4>{%  if session['Login'] %} Welcome, {{ session['UserName'] }} {% else %} Jump Up{%  endif %}</h4></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </a></div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/dashboard"><h4>Dashboard</h4></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/explore"><h4>Explore</h4></a>
+                    </li>
+                    <li> <a class="page-scroll" href="/register"><h4>User Registrations</h4></a> </li>
+                    <li> <a class="page-scroll" href="/login"><h4>Login</h4></a> </li>
+                    <li>
+                        <a class="page-scroll" href="/project_register"><h4>Start a new Project</h4></a>
+                    </li>
+                    {% if session['Login'] == True %}
+                    <li>
+                        <a class="page-scroll" href="/logout"><h4>Logout</h4></a>
+                    </li>
+                    {%  endif %}
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+<br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                      <h1 class="intro-text">Link your bank account</h1>
+
+					  <form method="post" action="/account_details" name="BankAccountDetailsForm" onsubmit="return validateAccountDetailsForm()">
+					  <dl>
+							<label for="contactEmail">Email to Contact</label>
+							<input type="text" class="form-control" id="contactEmail" style="color:darkslategray" name="contactEmail" placeholder="Email Address to contact" required>
+
+							<br><br>
+
+							<label class="form-check-label" for="firstName">FirstName
+							<input class="form-check-input" type="text" style="color:darkslategray" name="fn" id="fn" value=" " required>
+
+							<br><br>
+
+							<label class="form-check-label" for="lastName">LastName
+							<input class="form-check-input" type="text" style="color:darkslategray" name="ln" id="ln" value=" " required>
+
+							<br><br>
+
+							<label class="form-check-label" for="dateOfBirth">Date Of Birth
+							<input class="form-check-input" type="date" style="color:darkslategray" id="DOB" name="DOB" value=" " required>
+
+							<br><br>
+
+							<label class="form-check-label"for="homeAddress">HomeAddress
+							<input class="form-check-input" type="text" style="color:darkslategray" name="homeAddress" id="homeAddress" value=" " required>
+
+							<br><br>
+
+							<label class="form-check-label"for="RoutingNumber">Routing Number
+							<input class="form-check-input" type="text" style="color:darkslategray" name="routingNumber" id="routingNumber" value=" "  required>
+
+							<br><br>
+
+							<label class="form-check-label"for="BankAccountNumber">Bank Account Number
+							<input class="form-check-input" type="text" name="BankAccountNumber" id="BankAccountNumber" value=" " required>
+							<br><br>
+							 <button type="submit" style="color:darkslategray">Submit Project</button>
+					  </dl>
+					  </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>About Jump Up</h2>
+                <p>Jump Up helps the start-up companies and the people with innovative ideas to showcase their projects, interact with the consumers and raise funds that are needed for their projects. We have implemented the backend of the website called kickstarter.com <a href="https://www.kickstarter.com/"></p>
+                <p>This website features innovative projects <a href="/explore">Explore the projects</a> Just login and register your project. <a href="/login">login here</a>.</p>
+                <p>Your project will be showcased in our explorers forum.<a href="/explore">Explorer's forum</a> Users can pledge to various projects in explorer's forum.</p>
+            </div>
+        </div>
+    </section>
+</body>
+
+{% endblock %}
+</html>

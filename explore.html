@@ -1,0 +1,75 @@
+{% extends 'bootstrap/base.html'%}
+{% block title %}HopUp User Login{% endblock %}
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle"
+      data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/">Home</a>
+  </div>
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+      <li><a href="/login">Login</a></li>
+      <li><a href="/project_register">Start a new Project</a></li>
+    </ul>
+  </div>
+</div>
+</div>
+{% endblock %}
+{%block content%}
+<!doctype html>
+<html>
+<head>
+  <div class="container" align="center">
+    <h1>Link your bank account</h1>
+  </div>
+</head>
+<body>
+  <form method="post" action="/home">
+    <div class="container">
+    <div class="form-group">
+		    <label for="contactEmail">Email to Contact</label>
+		    <input type="text" class="form-control" id="contactEmail" name="contactEmail" placeholder="Email Address to contact">
+		</div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label" for="firstName">FirstName
+        <input class="form-check-input" type="text" name="fn" id="fn" value=" ">
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label" for="lastName">LastName
+        <input class="form-check-input" type="text" name="ln" id="ln" value=" ">
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label" for="dateOfBirth">Date Of Birth
+        <input class="form-check-input" type="date" id="DOB" value=" ">
+      </label>
+    </div>
+    <div class="form-check form-check-inline disabled">
+        <label class="form-check-label"for="homeAddress">HomeAddress
+        <input class="form-check-input" type="text" name="homeAddress" id="homeAddress" value=" " >
+        </label>
+    </div>
+    <div class="form-check form-check-inline disabled">
+        <label class="form-check-label"for="RoutingNumber">Routing Number
+        <input class="form-check-input" type="text" name="routingNumber" id="routingNumber" value=" " >
+        </label>
+    </div>
+    <div class="form-check form-check-inline disabled">
+        <label class="form-check-label"for="BankAccountNumber">Bank Account Number
+        <input class="form-check-input" type="text" name="BankAccountNumber" id="BankAccountNumber" value=" " >
+        </label>
+    </div>
+    <button type="submit" style="background-color:grey;margin:auto;display:block">Submit Project</button>
+  </div>
+  </form>
+</body>
+</html>
+{%endblock%}

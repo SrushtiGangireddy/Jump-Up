@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Jump Up</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Theme CSS -->
+    <link href="/static/css/grayscale.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+{% block body %}
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="/"> <em class="fa fa-play-circle"></em> <span class="light"><h4>{%  if session['Login'] %} Welcome, {{ session['UserName'] }} {% else %} Jump Up{%  endif %}</h4></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </a></div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+
+                    <li>
+                        <a class="page-scroll" href="/dashboard"><h4>Dashboard</h4></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/explore"><h4>Explore</h4></a>
+                    </li>
+                    <li> <a class="page-scroll" href="/register"><h4>User Registrations</h4></a> </li>
+                    <li> <a class="page-scroll" href="/login"><h4>Login</h4></a> </li>
+                    <li>
+                        <a class="page-scroll" href="/project_register"><h4>Start a new Project</h4></a>
+                    </li>
+                    {% if session['Login'] == True %}
+                    <li>
+                        <a class="page-scroll" href="/logout"><h4>Logout</h4></a>
+                    </li>
+                    {%  endif %}
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                      <h1 class="brand-heading">Jump up</h1>
+                      <h1 class="intro-text">Projects at a glance</h1>
+
+                       {% for project in projectList %}
+                            <div style="background-color:black;color:white;padding:20px;">
+                                <img id="preview" src="{{ project[6] }}" height="50" width="50"/>
+                                <a href="/donate"><h2>{{project[0]}}. {{project[1]}}</h2></a>
+                                <h3>Project Category: {{project[3]}}</h3>
+                                <p>Sub Category: {{ project[4]}}</p>
+                                <p>{{project[7]}}</p>
+                                <h4> Location: {{project[8]}} </h4>
+                                <h5> Fund duration: {{project[9]}} </h5>
+                                <h6> Fund Goal: {{project[10]}} </h6>
+                                {%  if project[11] > 0 %}
+                                <h6> Remaining: {{ project[11] }}</h6>
+                            {% endif %}
+                            </div>
+                       {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>About Jump Up</h2>
+                <p>Jump Up helps the start-up companies and the people with innovative ideas to showcase their projects, interact with the consumers and raise funds that are needed for their projects. We have implemented the backend of the website called kickstarter.com <a href="https://www.kickstarter.com/"></p>
+                <p>This website features innovative projects <a href="/explore">Explore the projects</a> Just login and register your project. <a href="/login">login here</a>.</p>
+                <p>Your project will be showcased in our explorers forum.<a href="/explore">Explorer's forum</a> Users can pledge to various projects in explorer's forum.</p>
+            </div>
+        </div>
+    </section>
+</body>
+
+{% endblock %}
+</html>
